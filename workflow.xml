@@ -4,15 +4,14 @@
         <hive xmlns="uri:oozie:hive-action:0.2">
            <job-tracker>${jobTracker}</job-tracker>
             <name-node>${nameNode}</name-node>
-            <job-xml>/user/cloudera/oozie/hive-site.xml</job-xml>
             <configuration>
                 <property>
                     <name>mapred.job.queue.name</name>
                     <value>${queueName}</value>
                 </property>
                 <property>
-                    <name>oozie.hive.defaults</name>
-                    <value>/user/cloudera/oozie/hive-site.xml</value>
+		    <name>hive.metastore.uris</name>
+		    <value>${hiveMetastoreUri}</value>
                 </property>
             </configuration>
             <script>${hiveScript}</script>
@@ -30,8 +29,9 @@
                   <value>${queueName}</value>
                 </property>
             </configuration>
-            <exec>${EXEC}</exec>
-            <file>${EXEC}#${EXEC}</file> <!--Copy the jar to compute node current working directory -->
+            <exec>${exec}</exec>
+            <argument>${restEndpoint}</argument>
+            <file>${exec}#${exec}</file> <!--Copy the jar to compute node current working directory -->
         </shell>
         <ok to="end" />
         <error to="shell-fail" />
