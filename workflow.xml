@@ -8,7 +8,7 @@
             <configuration>
                 <property>
                     <name>mapred.job.queue.name</name>
-                    <value>default</value>
+                    <value>${queueName}</value>
                 </property>
                 <property>
                     <name>oozie.hive.defaults</name>
@@ -17,11 +17,30 @@
             </configuration>
             <script>${hiveScript}</script>
         </hive>
-        <ok to="end"/>
-        <error to="fail"/>
+        <ok to="shell-action"/>
+        <error to="hive-fail"/>
     </action>
-    <kill name="fail">
+    <action name="shell-action">
+        <shell xmlns="uri:oozie:shell-action:0.1">
+            <job-tracker>${jobTracker}</job-tracker>
+            <name-node>${nameNode}</name-node>
+            <configuration>
+                <property>
+                  <name>mapred.job.queue.name</name>
+                  <value>${queueName}</value>
+                </property>
+            </configuration>
+            <exec>${EXEC}</exec>
+            <file>${EXEC}#${EXEC}</file> <!--Copy the jar to compute node current working directory -->
+        </shell>
+        <ok to="end" />
+        <error to="shell-fail" />
+    </action>
+    <kill name="hive-fail">
         <message>Hive failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
+    </kill>
+    <kill name="shell-fail">
+        <message>Script failed, error message[${wf:errorMessage(wf:lastErrorNode())}]</message>
     </kill>
     <end name="end"/>
 </workflow-app>
