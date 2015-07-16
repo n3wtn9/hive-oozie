@@ -1,5 +1,5 @@
 #!/bin/bash
 
-hive-contrib=/usr/hdp/current/hive-client/lib/hive-contrib.jar
-wholefile-reader=hadoop-wholefilereader-1.0-jar-with-dependencies.jar;
-hive -i <(echo "ADD JAR $hive-contrib; ADD JAR $wholefile-reader; CREATE TEMPORARY FUNCTION row_incr AS 'org.apache.hadoop.hive.contrib.udf.UDFRowSequence';")
+hivecontrib=/usr/hdp/current/hive-client/lib/hive-contrib.jar
+wholefilereader=hadoop-wholefilereader-1.0-jar-with-dependencies.jar;
+hive -i <(echo "ADD JAR $hivecontrib; ADD JAR $wholefilereader; CREATE TEMPORARY FUNCTION row_incr AS 'org.apache.hadoop.hive.contrib.udf.UDFRowSequence';")
