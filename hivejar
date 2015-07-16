@@ -1,3 +1,5 @@
 #!/bin/bash
 
-hive -i <(echo "ADD JAR /usr/lib/hive/lib/hive-contrib-0.13.1-cdh5.3.0.jar; ADD JAR /home/cloudera/Desktop/hadoop-wholefilereader-1.0-jar-with-dependencies.jar; CREATE TEMPORARY FUNCTION row_incr AS 'org.apache.hadoop.hive.contrib.udf.UDFRowSequence';")
+hive-contrib=/usr/hdp/current/hive-client/lib/hive-contrib.jar
+wholefile-reader=hadoop-wholefilereader-1.0-jar-with-dependencies.jar;
+hive -i <(echo "ADD JAR $hive-contrib; ADD JAR $wholefile-reader; CREATE TEMPORARY FUNCTION row_incr AS 'org.apache.hadoop.hive.contrib.udf.UDFRowSequence';")
